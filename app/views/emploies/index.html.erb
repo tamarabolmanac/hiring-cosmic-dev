@@ -1,1 +1,22 @@
 <h1> Emploies of the Cosomos </h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Date of Birth</th>
+      <th>Email </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @emploies.each do |employee| %>
+      <tr>
+        <td><%= employee.first_name %></td>
+        <td><%= employee.last_name %></td>
+        <td><%= employee.date_of_birth.strftime("%Y-%m-%d") %></td>
+        <td><%= employee.email %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
