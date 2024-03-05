@@ -27,6 +27,8 @@ gem "bootsnap", require: false
 
 gem 'rest-client'
 
+gem 'draper'
+
 group :development, :test do
   gem "byebug"
 end

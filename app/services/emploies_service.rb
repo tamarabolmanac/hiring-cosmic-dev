@@ -19,7 +19,7 @@ class EmploiesService
           email: employee_data["email"],
           address: employee_data["address"],
           country: employee_data["country"],
-          bio: employee_data["bio"],
+          bio: employee_data["bio"].join(' '),
           rating: employee_data["rating"]
         )
         # TODO check if valid
