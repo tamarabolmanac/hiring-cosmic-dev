@@ -8,7 +8,7 @@ class EmploiesService
     
     if response[:status] == 200
       emploies_raw_data = response[:data]
-
+      
       emploies_raw_data.each do |employee_data|
         employee = create_new_employee(employee_data)
   
