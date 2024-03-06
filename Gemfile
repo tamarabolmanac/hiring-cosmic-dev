@@ -29,6 +29,8 @@ gem 'rest-client'
 
 gem 'draper'
 
+gem 'dotenv-rails', groups: [:development, :test]
+
 group :development, :test do
   gem "byebug"
 end

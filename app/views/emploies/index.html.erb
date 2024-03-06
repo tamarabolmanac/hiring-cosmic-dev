@@ -1,5 +1,11 @@
-<h1> Emploies of the Cosomos </h1>
 
-<% @emploies.each do |employee| %>
-  <%= render partial: "employee", locals: { employee: employee } %>
-<% end %>
+<div>
+  <div>
+    <%= link_to 'Import list of emploies', import_emploies_path, method: :get %>
+    <h1> Emploies </h1>
+  </div>
+  
+  <% @emploies.each do |employee| %>
+    <%= render partial: "employee", locals: { employee: employee } %>
+  <% end %>
+</div>
