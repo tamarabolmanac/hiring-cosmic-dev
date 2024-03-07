@@ -1,4 +1,6 @@
 class EmploiesClient
+  URL_BASE_PATH = "https://beta.01cxhdz3a8jnmapv.com/api/v1/assignment"
+
   def initialize
     @access_token = get_token
   end
@@ -14,7 +16,7 @@ class EmploiesClient
       }
       
     begin
-      response = RestClient.post 'https://beta.01cxhdz3a8jnmapv.com/api/v1/assignment/token/', request_body
+      response = RestClient.post "#{URL_BASE_PATH}/token/", request_body
     rescue RestClient::ExceptionWithResponse => e
       return { status: e.response.code, error: e.response.body }
     rescue RestClient::Exception, SocketError, Errno::ECONNREFUSED => e
@@ -30,12 +32,12 @@ class EmploiesClient
         Authorization: "Bearer #{@access_token}"
       }
       begin
-        response = RestClient.get 'https://beta.01cxhdz3a8jnmapv.com/api/v1/assignment/employee/list', headers
+        response = RestClient.get "#{URL_BASE_PATH}/employee/list", headers
         return { status: 200, data:  JSON.parse(response.body)}
       rescue RestClient::ExceptionWithResponse => e
         return { status: e.response.code, error: e.response.body }
       rescue RestClient::Exception, SocketError, Errno::ECONNREFUSED => e
-        return{ status: 500, error: "Internal server error: #{e.exception.message}" }
+        return { status: 500, error: "Internal server error: #{e.exception.message}" }
       end
     else
       return { status: 401, error: "No API access token"}
