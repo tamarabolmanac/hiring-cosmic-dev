@@ -10,9 +10,12 @@ class EmploiesService
       emploies_raw_data = response[:data]
       
       emploies_raw_data.each do |employee_data|
-        employee = create_new_employee(employee_data)
-  
-        employee.save! if employee.valid?
+        begin
+          employee = create_new_employee(employee_data)
+          employee.save! if employee.valid?
+        rescue => e
+          Rails.logger.error("Error creating employee: #{e.message}. Employee data: #{employee_data}")
+        end
       end
     else
       Rails.logger.error("Error: The service wes not able to obtain the data. Message: #{response[:error]}")
@@ -22,7 +25,7 @@ class EmploiesService
   def create_new_employee(employee_data)
     Employee.create(
       external_id: employee_data["id"],
-      date_of_birth: Date.parse(employee_data["date_of_birth"]),
+      date_of_birth: parse_date(employee_data["date_of_birth"]),
       first_name: employee_data["first_name"],
       last_name: employee_data["last_name"],
       email: employee_data["email"],
@@ -31,5 +34,14 @@ class EmploiesService
       bio: employee_data["bio"].join(' '),
       rating: employee_data["rating"]
     )
+  end
+
+  private
+
+  def parse_date(date_string)
+    Date.parse(date_string)
+  rescue ArgumentError => e
+    Rails.logger.error("Invalid date format: #{date_string}. Error: #{e.message}")
+    nil
   end
 end
