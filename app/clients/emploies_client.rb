@@ -16,9 +16,9 @@ class EmploiesClient
     begin
       response = RestClient.post 'https://beta.01cxhdz3a8jnmapv.com/api/v1/assignment/token/', request_body
     rescue RestClient::ExceptionWithResponse => e
-      { status: e.response.code, error: e.response.body }
+      return { status: e.response.code, error: e.response.body }
     rescue RestClient::Exception, SocketError, Errno::ECONNREFUSED => e
-      { status: 500, error: "Internal server error: #{e.exception.message}" }
+      return { status: 500, error: "Internal server error: #{e.exception.message}" }
     end
 
     return JSON.parse(response.body)["access_token"]
@@ -33,9 +33,9 @@ class EmploiesClient
         response = RestClient.get 'https://beta.01cxhdz3a8jnmapv.com/api/v1/assignment/employee/list', headers
         return { status: 200, data:  JSON.parse(response.body)}
       rescue RestClient::ExceptionWithResponse => e
-        { status: e.response.code, error: e.response.body }
+        return { status: e.response.code, error: e.response.body }
       rescue RestClient::Exception, SocketError, Errno::ECONNREFUSED => e
-        { status: 500, error: "Internal server error: #{e.exception.message}" }
+        return{ status: 500, error: "Internal server error: #{e.exception.message}" }
       end
     else
       return { status: 401, error: "No API access token"}
