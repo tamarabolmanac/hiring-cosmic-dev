@@ -10,15 +10,21 @@ class EmploiesService
       emploies_raw_data = response[:data]
       
       emploies_raw_data.each do |employee_data|
-        begin
-          employee = create_new_employee(employee_data)
-          employee.save! if employee.valid?
-        rescue => e
-          Rails.logger.error("Error creating employee: #{e.message}. Employee data: #{employee_data}")
-        end
+        create_and_store_employee_data(employee_data)
       end
     else
       Rails.logger.error("Error: The service wes not able to obtain the data. Message: #{response[:error]}")
+    end
+  end
+
+  private
+
+  def create_and_store_employee_data(employee_data)
+    begin
+      employee = create_new_employee(employee_data)
+      employee.save! if employee.valid?
+    rescue => e
+      Rails.logger.error("Error creating employee: #{e.message}. Employee data: #{employee_data}")
     end
   end
 
@@ -35,8 +41,6 @@ class EmploiesService
       rating: employee_data["rating"]
     )
   end
-
-  private
 
   def parse_date(date_string)
     Date.parse(date_string)
